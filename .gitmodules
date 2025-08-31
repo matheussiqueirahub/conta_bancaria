@@ -1,0 +1,3 @@
+[submodule "sql-estoque-relacional"]
+	path = sql-estoque-relacional
+	url = https://github.com/matheussiqueirahub/sql-estoque-relacional
