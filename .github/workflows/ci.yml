@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.10", "3.11"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Show Python version
+        run: python -V
+
+      - name: Validate script output
+        shell: bash
+        env:
+          PYTHONUTF8: '1'
+        run: |
+          python - << 'PY'
+          import subprocess, sys, os
+          env = os.environ.copy()
+          env['PYTHONUTF8'] = '1'
+          script = 'Programação-Orientada-a-Objetos.py'
+          res = subprocess.run([sys.executable, '-X', 'utf8', script], capture_output=True, text=True, env=env, check=True)
+          out = [line.strip() for line in res.stdout.splitlines() if line.strip()]
+          expected = [
+              'Veículo está em movimento.',
+              'Carro está dirigindo.',
+              'Moto está acelerando.',
+          ]
+          assert out == expected, f'\nSaída inesperada.\nEsperado: {expected}\nObtido:   {out}\nSTDOUT completo:\n{res.stdout}'
+          print('Saída conferida com sucesso.')
+          PY
+
