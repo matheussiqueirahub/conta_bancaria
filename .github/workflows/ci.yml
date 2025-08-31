@@ -54,6 +54,7 @@ jobs:
               'Veículo está em movimento.',
               'Carro está dirigindo.',
               'Moto está acelerando.',
+              'Saldo atual de Ana: R$ 120.00',
           ]
           assert out == expected, f'\nSaída inesperada.\nEsperado: {expected}\nObtido:   {out}\nSTDOUT completo:\n{res.stdout}'
           print('Saída conferida com sucesso.')

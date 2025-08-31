@@ -1,41 +1,48 @@
-"""
-Exemplo simples de POO em Python com herança e sobrescrita de métodos.
-
-Classes:
-- Veiculo: classe base com o método movimentar().
-- Carro: subclasse que sobrescreve movimentar() para mensagem específica.
-- Moto: subclasse que sobrescreve movimentar() para mensagem específica.
-"""
-
 from __future__ import annotations
+from abc import ABC, abstractmethod
 
 
-class Veiculo:
-    """Classe base que representa um veículo genérico."""
+class Veiculo(ABC):
+    """Classe base abstrata para veículos."""
+
+    @abstractmethod
+    def movimentar(self) -> None:
+        """Ação de movimento a ser implementada pelas subclasses."""
+        raise NotImplementedError
+
+
+class VeiculoGenerico(Veiculo):
+    """Implementação genérica que apenas indica movimento."""
 
     def movimentar(self) -> None:
-        """Indica que o veículo está em movimento."""
         print("Veículo está em movimento.")
 
 
 class Carro(Veiculo):
-    """Representa um carro, especialização de Veiculo."""
+    """Representa um Carro."""
 
     def movimentar(self) -> None:
-        """Indica que o carro está dirigindo."""
         print("Carro está dirigindo.")
 
 
 class Moto(Veiculo):
-    """Representa uma moto, especialização de Veiculo."""
+    """Representa uma Moto."""
 
     def movimentar(self) -> None:
-        """Indica que a moto está acelerando."""
         print("Moto está acelerando.")
 
 
 if __name__ == "__main__":
-    # Demonstração simples de polimorfismo:
-    frota: list[Veiculo] = [Veiculo(), Carro(), Moto()]
-    for v in frota:
+    # Demonstração de polimorfismo com veículos
+    veiculos: list[Veiculo] = [VeiculoGenerico(), Carro(), Moto()]
+    for v in veiculos:
         v.movimentar()
+
+    # Demonstração simples de ContaBancaria
+    from conta_bancaria import ContaBancaria
+
+    conta = ContaBancaria("Ana", 100.0)
+    conta.depositar(50)
+    conta.sacar(30)
+    conta.exibir_saldo()
+
