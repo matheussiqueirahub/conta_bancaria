@@ -13,6 +13,8 @@ jobs:
   test:
     name: Python ${{ matrix.python-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
     strategy:
       fail-fast: false
       matrix:
@@ -32,8 +34,8 @@ jobs:
       - name: Show Python version
         run: python -V
 
-      - name: Install tools (ruff, pytest)
-        run: python -m pip install --upgrade pip ruff pytest
+      - name: Install tools (ruff, pytest, coverage)
+        run: python -m pip install --upgrade pip ruff pytest coverage
 
       - name: Lint (ruff)
         run: python -m ruff --output-format=github check .
@@ -60,9 +62,25 @@ jobs:
           print('Saída conferida com sucesso.')
           PY
 
-      - name: Run tests (pytest)
+      - name: Run tests with coverage
         shell: bash
         env:
           PYTHONUTF8: '1'
         run: |
-          python -X utf8 -m pytest -q
+          python -X utf8 -m coverage run -m pytest -q
+          python -X utf8 -m coverage xml -o coverage.xml
+          python -X utf8 -m coverage report -m || true
+
+      - name: Generate coverage badge
+        uses: tj-actions/coverage-badge@v2
+        with:
+          filename: coverage.svg
+          coverage-summary: coverage.xml
+
+      - name: Commit coverage badge
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'coverage.svg'
+          message: 'chore(ci): atualiza badge de cobertura'
+          default_author: github_actions
