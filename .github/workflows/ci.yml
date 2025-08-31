@@ -32,6 +32,12 @@ jobs:
       - name: Show Python version
         run: python -V
 
+      - name: Install lint tools (ruff)
+        run: python -m pip install --upgrade pip ruff
+
+      - name: Lint (ruff)
+        run: python -m ruff --output-format=github check .
+
       - name: Validate script output
         shell: bash
         env:
@@ -52,4 +58,3 @@ jobs:
           assert out == expected, f'\nSaída inesperada.\nEsperado: {expected}\nObtido:   {out}\nSTDOUT completo:\n{res.stdout}'
           print('Saída conferida com sucesso.')
           PY
-

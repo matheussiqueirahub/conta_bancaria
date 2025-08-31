@@ -1,4 +1,6 @@
-# Programação Orientada a Objetos — Veículos
+# Programação Orientada a Objetos - Veículos
+
+[![CI](https://github.com/matheussiqueirahub/Programa-o-Orientada-a-objetos-/actions/workflows/ci.yml/badge.svg)](https://github.com/matheussiqueirahub/Programa-o-Orientada-a-objetos-/actions/workflows/ci.yml)
 
 Exemplo simples em Python demonstrando herança e sobrescrita de métodos.
 
@@ -44,4 +46,3 @@ Moto está acelerando.
    git remote add origin <URL_DO_SEU_REPO>
    git push -u origin main
    ```
-
