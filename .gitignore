@@ -1,18 +1,14 @@
+# básicos
+.DS_Store
+Thumbs.db
+.vscode/
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-
+.env
 .venv/
-venv/
-ENV/
-env/
 
-.vscode/
-.idea/
-*.code-workspace
+# node
+node_modules/
 
-.DS_Store
-
-Thumbs.db
-
+# python
+*.egg-info/
