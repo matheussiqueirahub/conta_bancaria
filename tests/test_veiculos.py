@@ -11,7 +11,7 @@ def carregar_modulo():
     raiz = Path(__file__).resolve().parents[1]
     # Localiza o arquivo ignorando possíveis problemas de codificação no nome
     candidatos = list(raiz.glob("Program*Orientada-a-Objetos.py"))
-    assert candidatos, "Arquivo de POO nao encontrado (pattern Program*Orientada-a-Objetos.py)"
+    assert candidatos, "Arquivo de POO não encontrado (pattern Program*Orientada-a-Objetos.py)"
     caminho = candidatos[0]
     spec = importlib.util.spec_from_file_location("poo_veiculos", caminho)
     assert spec and spec.loader
