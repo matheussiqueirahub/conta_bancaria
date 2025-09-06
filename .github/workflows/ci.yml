@@ -38,7 +38,7 @@ jobs:
         run: python -m pip install --upgrade pip ruff pytest coverage
 
       - name: Lint (ruff)
-        run: python -m ruff --output-format=github check .
+        run: ruff check . --output-format=github
 
       - name: Validate script output
         shell: bash
@@ -47,9 +47,12 @@ jobs:
         run: |
           python - << 'PY'
           import subprocess, sys, os
+          from pathlib import Path
           env = os.environ.copy()
           env['PYTHONUTF8'] = '1'
-          script = 'Programação-Orientada-a-Objetos.py'
+          candidates = list(Path('.').glob('Program*Orientada-a-Objetos.py'))
+          assert candidates, 'Arquivo de POO nao encontrado (pattern Program*Orientada-a-Objetos.py)'
+          script = str(candidates[0])
           res = subprocess.run([sys.executable, '-X', 'utf8', script], capture_output=True, text=True, env=env, check=True)
           out = [line.strip() for line in res.stdout.splitlines() if line.strip()]
           expected = [
@@ -84,3 +87,4 @@ jobs:
           add: 'coverage.svg'
           message: 'chore(ci): atualiza badge de cobertura'
           default_author: github_actions
+
