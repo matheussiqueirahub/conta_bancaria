@@ -29,16 +29,16 @@ def test_deposito_e_saque_basico(capsys):
     assert saida == "Saldo atual de Fulano: R$ 120.00"
 
 
-def test_deposito_invalido():
+@pytest.mark.parametrize("valor", [0, -10, float("nan"), float("inf")])
+def test_deposito_invalido(valor: float) -> None:
     c = ContaBancaria("Fulano")
-    for valor in (0, -10):
-        with pytest.raises(ValueError):
-            c.depositar(valor)
+    with pytest.raises(ValueError):
+        c.depositar(valor)
 
 
-def test_saque_invalido_ou_insuficiente():
+def test_saque_invalido_ou_insuficiente() -> None:
     c = ContaBancaria("Fulano", 10)
-    for valor in (0, -5):
+    for valor in (0, -5, float("nan"), float("inf")):
         with pytest.raises(ValueError):
             c.sacar(valor)
     assert c.sacar(20) is False  # saldo insuficiente
