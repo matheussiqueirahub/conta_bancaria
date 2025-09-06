@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -87,4 +91,3 @@ jobs:
           add: 'coverage.svg'
           message: 'chore(ci): atualiza badge de cobertura'
           default_author: github_actions
-
