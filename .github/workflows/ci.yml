@@ -47,22 +47,22 @@ jobs:
         run: |
           python - << 'PY'
           import subprocess, sys, os
+          from pathlib import Path
           env = os.environ.copy()
           env['PYTHONUTF8'] = '1'
-          from pathlib import Path
           candidates = list(Path('.').glob('Program*Orientada-a-Objetos.py'))
           assert candidates, 'Arquivo de POO nao encontrado (pattern Program*Orientada-a-Objetos.py)'
           script = str(candidates[0])
           res = subprocess.run([sys.executable, '-X', 'utf8', script], capture_output=True, text=True, env=env, check=True)
           out = [line.strip() for line in res.stdout.splitlines() if line.strip()]
           expected = [
-              'Ve�culo est� em movimento.',
-              'Carro est� dirigindo.',
-              'Moto est� acelerando.',
+              'Veículo está em movimento.',
+              'Carro está dirigindo.',
+              'Moto está acelerando.',
               'Saldo atual de Ana: R$ 120.00',
           ]
-          assert out == expected, f'\nSa�da inesperada.\nEsperado: {expected}\nObtido:   {out}\nSTDOUT completo:\n{res.stdout}'
-          print('Sa�da conferida com sucesso.')
+          assert out == expected, f'\nSaída inesperada.\nEsperado: {expected}\nObtido:   {out}\nSTDOUT completo:\n{res.stdout}'
+          print('Saída conferida com sucesso.')
           PY
 
       - name: Run tests with coverage
@@ -87,3 +87,4 @@ jobs:
           add: 'coverage.svg'
           message: 'chore(ci): atualiza badge de cobertura'
           default_author: github_actions
+

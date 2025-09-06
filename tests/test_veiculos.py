@@ -32,7 +32,7 @@ def test_movimentar_generico(capsys):
     v = m.VeiculoGenerico()
     v.movimentar()
     out = capsys.readouterr().out.strip()
-    assert out.startswith("Ve") and out.endswith("em movimento."), out
+    assert out == "Veículo está em movimento."
 
 
 def test_movimentar_carro(capsys):
@@ -40,7 +40,7 @@ def test_movimentar_carro(capsys):
     v = m.Carro()
     v.movimentar()
     out = capsys.readouterr().out.strip()
-    assert out.startswith("Carro") and out.endswith("dirigindo."), out
+    assert out == "Carro está dirigindo."
 
 
 def test_movimentar_moto(capsys):
@@ -48,4 +48,4 @@ def test_movimentar_moto(capsys):
     v = m.Moto()
     v.movimentar()
     out = capsys.readouterr().out.strip()
-    assert out.startswith("Moto") and out.endswith("acelerando."), out
+    assert out == "Moto está acelerando."
