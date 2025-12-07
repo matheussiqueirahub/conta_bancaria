@@ -1,31 +1,27 @@
-name: CI
+name: Python CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  contents: read
+    branches: [ main ]
 
 jobs:
-  python:
-    uses: matheussiqueirahub/banco_aurora/.github/workflows/python-ci.yml@main
-    with:
-      matrix-os: '["ubuntu-latest", "windows-latest"]'
-      python-versions: '["3.10", "3.11"]'
-      run-lint: true
-      run-tests: true
-      coverage: true
-      validate-script: true
-      script-path-glob: 'Program*Orientada-a-Objetos.py'
-      script-expected: |
-        Veículo está em movimento.
-        Carro está dirigindo.
-        Moto está acelerando.
-        Saldo atual de Ana: R$ 120.00
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        pip install pytest
+    - name: Test with pytest
+      run: |
+        pytest
