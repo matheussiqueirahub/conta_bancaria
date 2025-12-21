@@ -10,6 +10,8 @@ Uso rápido:
 
 from __future__ import annotations
 
+import math
+
 
 class ContaBancaria:
     """Modelo simples de conta bancária com encapsulamento do saldo.
@@ -37,15 +39,23 @@ class ContaBancaria:
         return self._saldo
 
     def depositar(self, valor: float) -> None:
-        """Adiciona um valor positivo ao saldo."""
-        if valor <= 0:
-            raise ValueError("Valor do depósito deve ser positivo.")
+        """Adiciona um valor ao saldo.
+
+        Levanta ``ValueError`` se ``valor`` não for um número finito
+        estritamente positivo.
+        """
+        if not isinstance(valor, (int, float)) or not math.isfinite(valor) or valor <= 0:
+            raise ValueError("Valor do depósito deve ser um número finito positivo.")
         self._saldo += float(valor)
 
     def sacar(self, valor: float) -> bool:
-        """Saca um valor, caso haja saldo suficiente. Retorna True se o saque foi realizado."""
-        if valor <= 0:
-            raise ValueError("Valor do saque deve ser positivo.")
+        """Saca um valor, caso haja saldo suficiente.
+
+        Retorna ``True`` se o saque for realizado e levanta ``ValueError``
+        para valores que não sejam números finitos positivos.
+        """
+        if not isinstance(valor, (int, float)) or not math.isfinite(valor) or valor <= 0:
+            raise ValueError("Valor do saque deve ser um número finito positivo.")
         if valor > self._saldo:
             return False
         self._saldo -= float(valor)
